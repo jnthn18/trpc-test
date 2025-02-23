@@ -6,7 +6,6 @@ import { cache } from "react";
 import { makeQueryClient } from "./query-client";
 import { appRouter } from "@/server/root";
 import { createTRPCContext } from "@/server/trpc";
-import { headers } from "next/headers";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import type { TRPCQueryOptions } from "@trpc/tanstack-react-query";
 
@@ -32,17 +31,8 @@ export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
   }
 }
 
-const createContext = cache(async () => {
-  const heads = new Headers(await headers());
-  heads.set("x-trpc-source", "rsc");
-
-  return createTRPCContext({
-    headers: heads,
-  });
-});
-
 export const trpc = createTRPCOptionsProxy({
-  ctx: createContext,
+  ctx: createTRPCContext,
   router: appRouter,
   queryClient: getQueryClient,
 });

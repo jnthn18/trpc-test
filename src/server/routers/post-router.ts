@@ -18,7 +18,7 @@ export const postRouter = createTRPCRouter({
       return post;
     }),
   create: publicProcedure
-    .input(type({ name: "string", content: "string" }).assert)
+    .input(type({ title: "string", content: "string" }).assert)
     .mutation(async ({ ctx, input }) => {
       const [newPost] = await ctx.db
         .insert(post)

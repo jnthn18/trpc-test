@@ -12,7 +12,7 @@ export const postRouter = createTRPCRouter({
     });
   }),
   getById: publicProcedure
-    .input(type({ id: "string" }).assert)
+    .input(type({ id: "string" }))
     .query(async ({ ctx, input }) => {
       const post = await ctx.db.query.post.findFirst({
         where: (post, { eq }) => eq(post.id, input.id),
@@ -22,7 +22,7 @@ export const postRouter = createTRPCRouter({
       return { ...post, createdAt: format(post.createdAt, "MM/dd/yyyy") };
     }),
   create: publicProcedure
-    .input(type({ title: "string.email > 3", content: "string > 3" }))
+    .input(type({ title: "string >= 3", content: "string > 3" }))
     .mutation(async ({ ctx, input }) => {
       const [newPost] = await ctx.db
         .insert(post)

@@ -1,6 +1,7 @@
 import { initTRPC } from "@trpc/server";
 import SuperJSON from "superjson";
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
+import { db } from "./db";
 
 interface CreateInnerContextOptions
   extends Partial<FetchCreateContextFnOptions> {
@@ -9,6 +10,7 @@ interface CreateInnerContextOptions
 
 export const createInnerContext = async (opts?: CreateInnerContextOptions) => {
   return {
+    db,
     ...opts,
   };
 };

@@ -31,6 +31,8 @@ export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
   }
 }
 
+export const caller = appRouter.createCaller(createInnerContext);
+
 export const trpc = createTRPCOptionsProxy({
   ctx: createInnerContext,
   router: appRouter,

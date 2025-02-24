@@ -5,7 +5,7 @@ import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query";
 import { cache } from "react";
 import { makeQueryClient } from "./query-client";
 import { appRouter } from "@/server/root";
-import { createTRPCContext } from "@/server/trpc";
+import { createInnerContext } from "@/server/trpc";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import type { TRPCQueryOptions } from "@trpc/tanstack-react-query";
 
@@ -32,7 +32,7 @@ export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
 }
 
 export const trpc = createTRPCOptionsProxy({
-  ctx: createTRPCContext,
+  ctx: createInnerContext,
   router: appRouter,
   queryClient: getQueryClient,
 });

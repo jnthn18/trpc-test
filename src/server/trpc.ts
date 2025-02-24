@@ -2,13 +2,27 @@ import { initTRPC } from "@trpc/server";
 import SuperJSON from "superjson";
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 
-export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
+interface CreateInnerContextOptions
+  extends Partial<FetchCreateContextFnOptions> {
+  userId: string | null;
+}
+
+export const createInnerContext = async (opts?: CreateInnerContextOptions) => {
   return {
     ...opts,
   };
 };
 
-type Context = Awaited<ReturnType<typeof createTRPCContext>>;
+export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
+  const innerContext = await createInnerContext();
+
+  return {
+    ...innerContext,
+    ...opts,
+  };
+};
+
+type Context = Awaited<ReturnType<typeof createInnerContext>>;
 
 const t = initTRPC.context<Context>().create({
   transformer: SuperJSON,

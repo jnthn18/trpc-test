@@ -1,7 +1,7 @@
 import { createTRPCRouter, publicProcedure } from "@/server/trpc";
 import { comment } from "@/server/db/schema";
 import { TRPCError } from "@trpc/server";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { type } from "arktype";
 
 export const commentRouter = createTRPCRouter({
@@ -23,6 +23,7 @@ export const commentRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return await ctx.db.query.comment.findMany({
         where: eq(comment.postId, input.postId),
+        orderBy: desc(comment.createdAt),
       });
     }),
 });

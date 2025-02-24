@@ -12,9 +12,11 @@ export default async function PostPage({
   prefetch(trpc.comment.listByPost.queryOptions({ postId: id }));
 
   return (
-    <HydrateClient>
-      <Post id={id} />
-      <Comments postId={id} />
-    </HydrateClient>
+    <div className="w-80 mx-auto">
+      <HydrateClient>
+        <Post id={id} />
+        <Comments postId={id} />
+      </HydrateClient>
+    </div>
   );
 }

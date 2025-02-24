@@ -30,7 +30,7 @@ export default function CreatePostForm() {
               onBlur={field.handleBlur}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Title"
-              className="text-background px-2 py-1 rounded-sm"
+              className="text-background px-2 py-1 rounded-xs"
             />
           )}
         </form.Field>
@@ -42,7 +42,7 @@ export default function CreatePostForm() {
               onBlur={field.handleBlur}
               onChange={(e) => field.handleChange(e.target.value)}
               placeholder="Content"
-              className="text-background px-2 py-1 rounded-sm"
+              className="text-background px-2 py-1 rounded-xs"
             />
           )}
         </form.Field>

@@ -12,20 +12,27 @@
     "db:studio": "pnpm drizzle-kit studio"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.2",
     "@tanstack/react-form": "^0.43.2",
     "@tanstack/react-query": "^5.66.9",
     "@trpc/client": "11.0.0-rc.802",
     "@trpc/server": "11.0.0-rc.802",
     "@trpc/tanstack-react-query": "11.0.0-rc.802",
     "arktype": "^2.1.0",
+    "class-variance-authority": "^0.7.1",
     "client-only": "^0.0.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "drizzle-orm": "^0.39.3",
+    "lucide-react": "^0.475.0",
     "next": "15.1.7",
     "pg": "^8.13.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "server-only": "^0.0.1",
-    "superjson": "^2.2.2"
+    "superjson": "^2.2.2",
+    "tailwind-merge": "^3.0.2",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

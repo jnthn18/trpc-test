@@ -12,6 +12,7 @@
     "db:studio": "pnpm drizzle-kit studio"
   },
   "dependencies": {
+    "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "@tanstack/react-form": "^0.43.2",
     "@tanstack/react-query": "^5.66.9",

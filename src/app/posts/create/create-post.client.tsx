@@ -15,6 +15,12 @@ import { Label } from "@/components/ui/label";
 import { useTRPC } from "@/trpc/client";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { type } from "arktype";
+
+const postSchema = type({
+  title: "string >= 3",
+  content: "string > 3",
+});
 
 export default function CreatePostForm() {
   const router = useRouter();
@@ -25,6 +31,9 @@ export default function CreatePostForm() {
       title: "",
       content: "",
     },
+    validators: {
+      onChange: postSchema,
+    },
     onSubmit: async ({ value }) => {
       createPost(value);
     },
@@ -33,10 +42,6 @@ export default function CreatePostForm() {
   const createPostOptions = trpc.post.create.mutationOptions({
     onSuccess: (post) => {
       router.push(`/posts/${post.id}`);
-    },
-    onError: (error) => {
-      if (error?.data?.arkError) {
-      }
     },
   });
 
@@ -72,7 +77,7 @@ export default function CreatePostForm() {
                   placeholder="Title"
                 />
                 {field.state.meta.errors && (
-                  <p className="text-sm destructive">
+                  <p className="text-sm text-destructive">
                     {field.state.meta.errors.join(", ")}
                   </p>
                 )}
@@ -92,6 +97,11 @@ export default function CreatePostForm() {
                   onChange={(e) => field.handleChange(e.target.value)}
                   placeholder="Content"
                 />
+                {field.state.meta.errors && (
+                  <p className="text-sm text-destructive">
+                    {field.state.meta.errors.join(", ")}
+                  </p>
+                )}
               </div>
             )}
           </form.Field>

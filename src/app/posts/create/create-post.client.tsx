@@ -20,15 +20,6 @@ export default function CreatePostForm() {
   const router = useRouter();
   const trpc = useTRPC();
 
-  const createPostOptions = trpc.post.create.mutationOptions({
-    onSuccess: (post) => {
-      router.push(`/posts/${post.id}`);
-    },
-    onError: (error) => console.log(error),
-  });
-
-  const { mutate: createPost, isPending } = useMutation(createPostOptions);
-
   const form = useForm({
     defaultValues: {
       title: "",
@@ -38,6 +29,18 @@ export default function CreatePostForm() {
       createPost(value);
     },
   });
+
+  const createPostOptions = trpc.post.create.mutationOptions({
+    onSuccess: (post) => {
+      router.push(`/posts/${post.id}`);
+    },
+    onError: (error) => {
+      if (error?.data?.arkError) {
+      }
+    },
+  });
+
+  const { mutate: createPost, isPending } = useMutation(createPostOptions);
 
   return (
     <form
@@ -68,6 +71,11 @@ export default function CreatePostForm() {
                   onChange={(e) => field.handleChange(e.target.value)}
                   placeholder="Title"
                 />
+                {field.state.meta.errors && (
+                  <p className="text-sm destructive">
+                    {field.state.meta.errors.join(", ")}
+                  </p>
+                )}
               </div>
             )}
           </form.Field>

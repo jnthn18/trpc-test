@@ -2,6 +2,7 @@ import { initTRPC } from "@trpc/server";
 import SuperJSON from "superjson";
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import { db } from "./db";
+import { ArkError, ArkErrors } from "arktype";
 
 interface CreateInnerContextOptions
   extends Partial<FetchCreateContextFnOptions> {
@@ -28,6 +29,20 @@ type Context = Awaited<ReturnType<typeof createInnerContext>>;
 
 const t = initTRPC.context<Context>().create({
   transformer: SuperJSON,
+  errorFormatter({ shape, error }) {
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        arkError:
+          error.cause instanceof AggregateError
+            ? error.cause.errors.map((error: ArkError) => {
+                return { path: error.path[0], message: error.message };
+              })
+            : null,
+      },
+    };
+  },
 });
 
 export const createTRPCRouter = t.router;

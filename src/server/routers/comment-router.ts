@@ -1,12 +1,12 @@
 import { createTRPCRouter, publicProcedure } from "@/server/trpc";
-import { type } from "arktype";
 import { comment } from "@/server/db/schema";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 
 export const commentRouter = createTRPCRouter({
   create: publicProcedure
-    .input(type({ postId: "string", content: "string" }).assert)
+    .input(z.object({ postId: z.string(), content: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const [newComment] = await ctx.db
         .insert(comment)
@@ -19,7 +19,7 @@ export const commentRouter = createTRPCRouter({
       return newComment;
     }),
   listByPost: publicProcedure
-    .input(type({ postId: "string" }).assert)
+    .input(z.object({ postId: z.string() }))
     .query(async ({ ctx, input }) => {
       return await ctx.db.query.comment.findMany({
         where: eq(comment.postId, input.postId),

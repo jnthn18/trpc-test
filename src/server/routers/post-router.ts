@@ -2,10 +2,14 @@ import { createTRPCRouter, publicProcedure } from "@/server/trpc";
 import { type } from "arktype";
 import { post } from "@/server/db/schema";
 import { TRPCError } from "@trpc/server";
+import { format } from "date-fns";
+import { desc } from "drizzle-orm";
 
 export const postRouter = createTRPCRouter({
   list: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.query.post.findMany();
+    return await ctx.db.query.post.findMany({
+      orderBy: desc(post.createdAt),
+    });
   }),
   getById: publicProcedure
     .input(type({ id: "string" }).assert)
@@ -15,7 +19,7 @@ export const postRouter = createTRPCRouter({
       });
 
       if (!post) return null;
-      return post;
+      return { ...post, createdAt: format(post.createdAt, "MM/dd/yyyy") };
     }),
   create: publicProcedure
     .input(type({ title: "string", content: "string" }).assert)

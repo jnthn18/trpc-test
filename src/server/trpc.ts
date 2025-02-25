@@ -2,7 +2,7 @@ import { initTRPC } from "@trpc/server";
 import SuperJSON from "superjson";
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import { db } from "./db";
-import { ArkError, ArkErrors } from "arktype";
+import { ArkError } from "arktype";
 
 interface CreateInnerContextOptions
   extends Partial<FetchCreateContextFnOptions> {

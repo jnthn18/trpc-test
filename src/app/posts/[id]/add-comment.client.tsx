@@ -7,6 +7,12 @@ import { useForm } from "@tanstack/react-form";
 import { useTRPC } from "@/trpc/client";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
+import { type } from "arktype";
+
+const commentSchema = type({
+  postId: "string",
+  content: "string >= 3",
+});
 
 export default function AddComment({ postId }: { postId: string }) {
   const trpc = useTRPC();
@@ -23,6 +29,9 @@ export default function AddComment({ postId }: { postId: string }) {
     defaultValues: {
       postId,
       content: "",
+    },
+    validators: {
+      onSubmit: commentSchema,
     },
     onSubmit: async ({ value }) => {
       addComment(value);

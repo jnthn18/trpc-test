@@ -32,7 +32,7 @@ export default function CreatePostForm() {
       content: "",
     },
     validators: {
-      onChange: postSchema,
+      onSubmit: postSchema,
     },
     onSubmit: async ({ value }) => {
       createPost(value);

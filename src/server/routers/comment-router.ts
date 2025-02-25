@@ -6,7 +6,7 @@ import { type } from "arktype";
 
 export const commentRouter = createTRPCRouter({
   create: publicProcedure
-    .input(type({ postId: "string", content: "string > 0" }))
+    .input(type({ postId: "string", content: "string >= 3" }))
     .mutation(async ({ ctx, input }) => {
       const [newComment] = await ctx.db
         .insert(comment)
